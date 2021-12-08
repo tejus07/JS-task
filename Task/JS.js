@@ -1,4 +1,5 @@
 let allDetails = [];
+let count = 0;
 function addToObject() {
     console.log("in function");
     let nameVal = document.getElementById("name").value,
@@ -22,7 +23,10 @@ function addToObject() {
         }
     }
     console.log("RadioValue -" + radioVals);
+    count++;
+    console.log(count);
     let obj = {
+        number: count,
         name: nameVal,
         phone: phoneVal,
         age: dobVal,
@@ -48,8 +52,8 @@ function addToObject() {
     cell2.innerHTML = phoneVal;
     cell3.innerHTML = dobVal;
     cell4.innerHTML = emailVal;
-    cell5.innerHTML = checkVals;
-    cell6.innerHTML = radioVals;
+    cell5.innerHTML = checkVals.toString();
+    cell6.innerHTML = radioVals.toString();
     let button1 = document.createElement("button");
     button1.innerHTML="Edit";
     cell7.appendChild(button1);
