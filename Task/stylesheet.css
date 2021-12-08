@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+}
+form {
+    display: flex;
+    flex-flow: column;
+}
+.name-phone {
+    margin: 10px 0px;
+}
+.dob-email {
+    margin: 10px 0px;
+}
+.subject-checkbox {
+    width: 50%;
+    display: flex;
+    flex-flow: column;
+    margin: 10px 0;
+}
+.sub-gender {
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+}
+.gender-radio {
+    display: flex;
+    flex-flow: column;
+}
+table {
+    border: 1px solid;
+    min-width: 80%;
+    margin-top: 40px;
+}
+td {
+    text-align: center;
+}

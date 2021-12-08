@@ -1,0 +1,39 @@
+h2 {
+    text-align: center;
+    font-size: 55px;
+}
+.myDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+input#myInput {
+    padding: 12px 24px;
+}
+button.addBtn {
+    padding: 12px;
+}
+ul#myUL {
+    margin: 20px 122px;
+}
+
+ul li {
+    cursor: pointer;
+    position: relative;
+    padding: 12px 8px 12px 40px;
+    list-style-type: none;
+    background: #eee;
+    font-size: 18px;
+    transition: 0.2s;
+
+    /* make the list items unselectable */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+ul li.checked {
+    background: #888;
+    color: #fff;
+    text-decoration: line-through;
+}

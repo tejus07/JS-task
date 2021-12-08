@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+  <script type="text/javascript">
+    var k = "output";
+    let arr =[];
+    function addToArray(){
+        let nameval = document.getElementById('name').value ;
+        let ageval = document.getElementById('age').value ;
+        let obj = {name:nameval,age:ageval}
+        arr.push(obj);
+        // arr.push(input);
+        console.log(arr);
+        arr.forEach(x=>{
+            document.getElementById("namedis").innerHTML =x.name;
+            document.getElementById("agedis").innerHTML =x.age;
+        })
+    }
+
+  </script>
+</head>
+
+<body>
+<h3>
+  using arrays
+</h3>
+<form action="test.html" method="post">
+  <input type="text" name="array" id="name" value="" /><br>
+  <input type="text" name="array" id="age" value="" /><br>
+  <button type="button" name="button" onclick="addToArray()"> Submit</button>
+</form>
+<br>
+<p>Name:<span id="namedis"></span></p>
+<p>Age:<span id="agedis"></span></p>
+</body>
+</html>
