@@ -102,6 +102,8 @@ function editRow(clicked_id){
     let objIndex = allDetails.findIndex((obj => obj.number === x));
     console.log(allDetails[objIndex].name);
     document.getElementById("name").value = allDetails[objIndex].name;
+    document.getElementById("phone").value = allDetails[objIndex].phone;
+    document.getElementById("")
 
 }
 
