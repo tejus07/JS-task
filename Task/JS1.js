@@ -19,7 +19,7 @@ function addToObject() {
     let nameVal = document.getElementById("name").value,
         phoneVal = document.getElementById("phone").value,
         emailVal = document.getElementById("email").value;
-        dobVal = document.getElementById("dob").value;
+    dobVal = document.getElementById("dob").value;
 
     let dobValAge = calAge(dobVal);
 
@@ -101,18 +101,22 @@ function editRow(clicked_id){
     console.log("clicked id is ");
     console.log(clicked_id);
     //console.log("clicked id :"+clicked_id);
-   // const objIndex = allDetails.findIndex(allDetails => allDetails.number === x);  //(obj => obj.number === Number(clicked_id))
+    // const objIndex = allDetails.findIndex(allDetails => allDetails.number === x);  //(obj => obj.number === Number(clicked_id))
     let objIndex = allDetails.findIndex((obj => obj.number == x));
-
+    let newobj = allDetails.filter(x=>{x.number == clicked_id})
     console.log("obj index")
     console.log(objIndex);
 
     console.log(allDetails[objIndex].name);
-    document.getElementById("name").value = allDetails[objIndex].name;
-    document.getElementById("phone").value = allDetails[objIndex].phone;
-    document.getElementById("email").value = allDetails[objIndex].email;
-    document.getElementById("dob").value = allDetails[objIndex].age;
-    let checkVal = allDetails[objIndex].sub;
+    // document.getElementById("name").value = allDetails[objIndex].name;
+    // document.getElementById("phone").value = allDetails[objIndex].phone;
+    // document.getElementById("email").value = allDetails[objIndex].email;
+    // document.getElementById("dob").value = allDetails[objIndex].age;
+    document.getElementById("name").value = newobj.name;
+    document.getElementById("phone").value = newobj.phone;
+    document.getElementById("email").value = newobj.email;
+    document.getElementById("dob").value = newobj.age;
+    let checkVal = newobj.sub;
     let checked = document.getElementsByName("sub");
     checked.forEach(element => {
         checkVal.forEach( object=>{
@@ -132,7 +136,7 @@ function editRow(clicked_id){
     })
     document.getElementById("apply-btn").style.display="none";
     let button3 = document.getElementsByClassName('btn-update')[0];
-    button3.setAttribute("id",Number(clicked_id));
+    button3.setAttribute("id",clicked_id);
     button3.style.display="block";
     button3.setAttribute("onclick","updateEditRow(this.id)");
     //document.getElementById(clicked_id).style.display="inline block";
@@ -169,8 +173,8 @@ function updateEditRow(clicked_id){
             radioVals.push(radioboxVal[i].value);
         }
     }
-    // let button1 = allDetails[clicked_id].edit;
-    // let button2 = allDetails[clicked_id].remove;
+    let button1 = allDetails[clicked_id].edit;
+    let button2 = allDetails[clicked_id].remove;
 
     let obj = {
         number: Number(clicked_id),
@@ -182,7 +186,7 @@ function updateEditRow(clicked_id){
         gender: radioVals,
     }
 
-    allDetails.splice(Number(clicked_id),1,obj);
+    allDetails.splice(clicked_id,1,obj);
     //console.log("after");
     //console.log(allDetails);
     let table = document.getElementById("table");

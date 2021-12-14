@@ -48,3 +48,6 @@ td.btn-cell {
 .btn-update{
     display: none;
 }
+label{
+    cursor: pointer;
+}
