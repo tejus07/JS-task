@@ -1,30 +1,30 @@
 let allDetails = [];
 let count = 0;
 let rowcount =1;
-function addToObject() {
+function calAge(dobVal1){
 
+    // convert user input value into date object
+    let birthDate = new Date(dobVal1);
+    // get difference from current date;
+    let difference=Date.now() - birthDate.getTime();
+    let  ageDate = new Date(difference);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
+function validateData(){
+
+}
+function addToObject() {
+    validateData();
     let nameVal = document.getElementById("name").value,
         phoneVal = document.getElementById("phone").value,
         emailVal = document.getElementById("email").value;
-    let dobVal1 = document.getElementById("dob").value;
-    console.log(dobVal1);
+        dobVal = document.getElementById("dob").value;
 
-    function calAge(dobVal1){
-
-        // convert user input value into date object
-
-        console.log(dobVal1);
-        let birthDate = new Date(dobVal1);
-        //console.log(" birthDate"+ birthDate);
-        // get difference from current date;
-        let difference=Date.now() - birthDate.getTime();
-        let  ageDate = new Date(difference);
-        return Math.abs(ageDate.getUTCFullYear() - 1970);
-    }
-
-    let dobVal = calAge(dobVal1);
+    let dobValAge = calAge(dobVal);
 
     let checkboxesVal = document.getElementsByName('sub');
+    //console.log(checkboxesVal);
     let checkVals = [];
     for (let i = 0; i < checkboxesVal.length; i++) {
         if (checkboxesVal[i].checked) {
@@ -58,8 +58,6 @@ function addToObject() {
         email: emailVal,
         sub: checkVals,
         gender: radioVals,
-        edit : button1,
-        remove : button2
     }
     //console.log(obj);
     allDetails.push(obj);
@@ -83,7 +81,7 @@ function addToObject() {
     cell1.innerHTML = Number(table.rows.length)-1;
     cell2.innerHTML = nameVal;
     cell3.innerHTML = phoneVal;
-    cell4.innerHTML = dobVal + " yr";
+    cell4.innerHTML = dobValAge + " yr";
     cell5.innerHTML = emailVal;
     cell6.innerHTML = checkVals.toString();
     cell7.innerHTML = radioVals.toString();
@@ -93,18 +91,110 @@ function addToObject() {
     button2.innerHTML="Remove";
     cell9.appendChild(button2);
     cell9.setAttribute("class","btn-cell");
+    document.getElementById("task").reset();
 }
 
 function editRow(clicked_id){
-    let x = Number(clicked_id)
-    let y = Number(clicked_id);
+    console.log(allDetails);
+    let x = Number(clicked_id);
+    console.log("clicked id is ");
+    console.log(clicked_id);
     //console.log("clicked id :"+clicked_id);
-    let objIndex = allDetails.findIndex((obj => obj.number === x));
+   // const objIndex = allDetails.findIndex(allDetails => allDetails.number === x);  //(obj => obj.number === Number(clicked_id))
+    let objIndex = allDetails.findIndex((obj => obj.number == x));
+
+    console.log("obj index")
+    console.log(objIndex);
+
     console.log(allDetails[objIndex].name);
     document.getElementById("name").value = allDetails[objIndex].name;
     document.getElementById("phone").value = allDetails[objIndex].phone;
-    document.getElementById("")
+    document.getElementById("email").value = allDetails[objIndex].email;
+    document.getElementById("dob").value = allDetails[objIndex].age;
+    let checkVal = allDetails[objIndex].sub;
+    let checked = document.getElementsByName("sub");
+    checked.forEach(element => {
+        checkVal.forEach( object=>{
+            if(element.defaultValue === object){
+                element.checked=true;
+            }
+        })
+    })
 
+    let RadioVal = document.getElementsByName("gender");
+    let radioChecked = allDetails[objIndex].gender;
+    RadioVal.forEach(element => {
+        radioChecked.forEach( object => {
+            if (element.defaultValue === object)
+                element.checked = true;
+        })
+    })
+    document.getElementById("apply-btn").style.display="none";
+    let button3 = document.createElement("button");
+    button3.setAttribute("id",clicked_id);
+    button3.setAttribute("onclick","updateEditRow(this.id)");
+    button3.setAttribute("class","btn-update");
+    button3.setAttribute("type","button");
+    button3.innerHTML = "Update";
+    let form = document.getElementById("task");
+    form.appendChild(button3);
+}
+function updateEditRow(clicked_id){
+    console.log("before");
+    console.log(allDetails);
+    console.log(clicked_id);
+    let x = document.getElementsByClassName("btn-update");
+    for (let i = 0; i < x.length; i++) {
+        x[i].style.display="none";
+    }
+    document.getElementById("apply-btn").style.display="inline-block";
+    let nameVal = document.getElementById("name").value,
+        phoneVal = document.getElementById("phone").value,
+        emailVal = document.getElementById("email").value;
+    dobVal = document.getElementById("dob").value;
+
+    let dobValAge = calAge(dobVal);
+
+    let checkboxesVal = document.getElementsByName('sub');
+    //console.log(checkboxesVal);
+    let checkVals = [];
+    for (let i = 0; i < checkboxesVal.length; i++) {
+        if (checkboxesVal[i].checked) {
+            checkVals.push(checkboxesVal[i].value);
+        }
+    }
+
+    let radioboxVal = document.getElementsByName('gender');
+    let radioVals = [];
+    for (let i = 0; i < radioboxVal.length; i++) {
+        if (radioboxVal[i].checked) {
+            radioVals.push(radioboxVal[i].value);
+        }
+    }
+    let button1 = allDetails[clicked_id].edit;
+    let button2 = allDetails[clicked_id].remove;
+
+    let obj = {
+        number: clicked_id,
+        name: nameVal,
+        phone: phoneVal,
+        age: dobVal,
+        email: emailVal,
+        sub: checkVals,
+        gender: radioVals,
+    }
+
+    allDetails.splice(clicked_id,1,obj);
+    //console.log("after");
+    //console.log(allDetails);
+    let table = document.getElementById("table");
+    let rowno = Number(clicked_id)+1;
+    table.rows[rowno].cells[1].innerHTML = nameVal;
+    table.rows[rowno].cells[2].innerHTML = phoneVal;
+    table.rows[rowno].cells[3].innerHTML = dobValAge;
+    table.rows[rowno].cells[4].innerHTML = emailVal;
+    table.rows[rowno].cells[5].innerHTML = checkVals;
+    table.rows[rowno].cells[6].innerHTML = radioVals;
 }
 
 function removeRow(clicked_id){
