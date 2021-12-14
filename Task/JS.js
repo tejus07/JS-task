@@ -95,6 +95,7 @@ function addToObject() {
 }
 
 function editRow(clicked_id){
+    document.getElementById("task").reset();
     console.log(allDetails);
     let x = Number(clicked_id);
     console.log("clicked id is ");
@@ -130,14 +131,11 @@ function editRow(clicked_id){
         })
     })
     document.getElementById("apply-btn").style.display="none";
-    let button3 = document.createElement("button");
+    let button3 = document.getElementsByClassName('btn-update')[0];
     button3.setAttribute("id",clicked_id);
+    button3.style.display="block";
     button3.setAttribute("onclick","updateEditRow(this.id)");
-    button3.setAttribute("class","btn-update");
-    button3.setAttribute("type","button");
-    button3.innerHTML = "Update";
-    let form = document.getElementById("task");
-    form.appendChild(button3);
+    //document.getElementById(clicked_id).style.display="inline block";
 }
 function updateEditRow(clicked_id){
     console.log("before");
@@ -195,6 +193,7 @@ function updateEditRow(clicked_id){
     table.rows[rowno].cells[4].innerHTML = emailVal;
     table.rows[rowno].cells[5].innerHTML = checkVals;
     table.rows[rowno].cells[6].innerHTML = radioVals;
+    document.getElementById("task").reset();
 }
 
 function removeRow(clicked_id){
@@ -207,6 +206,12 @@ function removeRow(clicked_id){
     //console.log(allDetails);
     document.getElementById("row_id"+y).remove();
     updateColNo();
+    let a = document.getElementsByClassName("btn-update");
+    for (let i = 0; i < a.length; i++) {
+        a[i].style.display="none";
+    }
+    document.getElementById("apply-btn").style.display="block";
+
 }
 
 function updateColNo(){

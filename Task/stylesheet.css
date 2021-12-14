@@ -45,3 +45,6 @@ td.btn-cell {
     padding: 8px;
     font-size: 15px;
 }
+.btn-update{
+    display: none;
+}
