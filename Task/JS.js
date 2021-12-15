@@ -43,12 +43,12 @@ function addToObject() {
     let button1 = document.createElement("button");
     button1.setAttribute("id",count);
     button1.setAttribute("onclick","editRow(this.id)");
-    button1.setAttribute("class","btn-remove");
+    button1.setAttribute("class","btn-edit w3-border");
 
     let button2 = document.createElement("button");
     button2.setAttribute("id",count);
     button2.setAttribute("onclick","removeRow(this.id)");
-    button2.setAttribute("class","btn-remove");
+    button2.setAttribute("class","btn-remove w3-border");
 
     let obj = {
         number: count,
@@ -64,7 +64,8 @@ function addToObject() {
 
     let table = document.getElementById("table");
     table.style.display="table";
-    let i = allDetails.length
+    let i = allDetails.length;
+
     let row = table.insertRow(i);
     row.setAttribute("id","row_id"+count);
     count++;
@@ -96,18 +97,17 @@ function addToObject() {
 
 function editRow(clicked_id){
     document.getElementById("task").reset();
+    console.log("before editing in edit row");
     console.log(allDetails);
     let x = Number(clicked_id);
-    console.log("clicked id is ");
-    console.log(clicked_id);
+
     //console.log("clicked id :"+clicked_id);
    // const objIndex = allDetails.findIndex(allDetails => allDetails.number === x);  //(obj => obj.number === Number(clicked_id))
     let objIndex = allDetails.findIndex((obj => obj.number == x));
 
-    console.log("obj index")
-    console.log(objIndex);
-
-    console.log(allDetails[objIndex].name);
+    //console.log("obj index");
+    //console.log(objIndex);
+    //console.log(allDetails[objIndex].name);
     document.getElementById("name").value = allDetails[objIndex].name;
     document.getElementById("phone").value = allDetails[objIndex].phone;
     document.getElementById("email").value = allDetails[objIndex].email;
@@ -138,9 +138,9 @@ function editRow(clicked_id){
     //document.getElementById(clicked_id).style.display="inline block";
 }
 function updateEditRow(clicked_id){
-    console.log("before");
+    console.log("in update button and array is");
     console.log(allDetails);
-    console.log(clicked_id);
+    //console.log(clicked_id);
     let x = document.getElementsByClassName("btn-update");
     for (let i = 0; i < x.length; i++) {
         x[i].style.display="none";
@@ -182,22 +182,32 @@ function updateEditRow(clicked_id){
         gender: radioVals,
     }
 
-    allDetails.splice(Number(clicked_id),1,obj);
+    console.log("ID: "+clicked_id);
+    let objIndex = allDetails.findIndex((obj => obj.number == Number(clicked_id)));
+    console.log("onjIndex"+objIndex);
+    allDetails.splice(objIndex,1,obj);
     //console.log("after");
     //console.log(allDetails);
-    let table = document.getElementById("table");
-    let rowno = Number(clicked_id)+1;
+
+    let table = document.getElementById("table"),
+        rowid = Number(clicked_id);
+        rowno = document.getElementById("row_id"+rowid).id;
+        console.log("row num "+rowno);
     table.rows[rowno].cells[1].innerHTML = nameVal;
     table.rows[rowno].cells[2].innerHTML = phoneVal;
-    table.rows[rowno].cells[3].innerHTML = dobValAge;
+    table.rows[rowno].cells[3].innerHTML = dobValAge+" yr";
     table.rows[rowno].cells[4].innerHTML = emailVal;
     table.rows[rowno].cells[5].innerHTML = checkVals;
     table.rows[rowno].cells[6].innerHTML = radioVals;
     document.getElementById("task").reset();
+    console.log("leaving update button and array is");
+    console.log(allDetails);
 }
 
 function removeRow(clicked_id){
-    let x = Number(clicked_id)
+    console.log("before del");
+    console.log(allDetails);
+    let x = Number(clicked_id);
     let y = Number(clicked_id);
     //console.log("clicked id :"+clicked_id);
     let objIndex = allDetails.findIndex((obj => obj.number == x));
@@ -211,6 +221,8 @@ function removeRow(clicked_id){
         a[i].style.display="none";
     }
     document.getElementById("apply-btn").style.display="block";
+    console.log("after removeing");
+    console.log(allDetails);
 
 }
 
@@ -227,7 +239,10 @@ function updateColNo(){
 }
 
 let form = document.forms['task'];
-form.elements.email.placeholder = 'abc@bitqit.com';
+form.elements.email.placeholder = 'Email';
+form.elements.name.placeholder = 'Name';
+form.elements.phone.placeholder = 'Phone Number';
+
 
 
 
