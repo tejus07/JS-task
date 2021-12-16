@@ -10,19 +10,214 @@ function calAge(dobVal1){
     let  ageDate = new Date(difference);
     return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
-
-function validateData(){
+function validateName(){
     let x = document.forms["task"]["name"].value;
-    if (x == "") {
-        alert("Name must be filled out");
-        return false;
+    let regex = /^[a-zA-Z ]{3,30}$/;
+    let result = regex.test(x);
+    // let pattern = /[a-zA-Z]{3,}/;
+    // let result = pattern.test(x);
+    let NameSpace = / /.test(x);
+     let EmptyName = document.getElementById("name").value.length;
+    // console.log(EmptyName);
+    if (result == false & NameSpace == false ) {
+        // alert("Name must be filled out");
+        if (EmptyName === 0 & x[0]!==" ") {
+            document.getElementById("validName").innerHTML = "*Enter Name";
+            document.getElementById("name").style.border = "1px solid red";
+        }
+
+        else {
+            document.getElementById("validName").innerHTML = "*Invalid";
+            document.getElementById("name").style.border = "1px solid red";
+        }
+    }
+    else if(result == false && NameSpace == true ) {
+        if (EmptyName === 0 && x[0]!==" ") {
+            document.getElementById("validName").innerHTML = "*Enter Name";
+            document.getElementById("name").style.border = "1px solid red";
+        }
+        else {
+            document.getElementById("validName").innerHTML = "*Invalid Name";
+            document.getElementById("name").style.border = "1px solid red";
+        }
+    }
+    else if(result == true) {
+        if (EmptyName === 0 && x[0]!==" ") {
+            document.getElementById("validName").innerHTML = "*Enter Name";
+            document.getElementById("name").style.border = "1px solid red";
+        }
+        else if (x[0] ===" ") {
+            document.getElementById("validName").innerHTML = "*Whitespace is not allowed";
+            document.getElementById("name").style.border="1px solid red";
+        }
+        else
+            return true;
+    }
+    else
+        return true;
+
+}
+function validPhone(){
+    let phoneno = document.forms["task"]["phone"].value;
+    if (phoneno ==""){
+        document.getElementById("validPhone").innerHTML = "*Enter Number";
+        document.getElementById("phone").style.border="1px solid red";
+
+    }
+    else{
+        let regex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/;
+        let result = regex.test(phoneno);
+        if (result === false){
+            document.getElementById("validPhone").innerHTML = "*Invalid Number";
+            document.getElementById("name").style.border="1px solid red";
+        }
+        else
+            return true;
     }
 }
+
+function validEmail(){
+    let email = document.forms["task"]["email"].value;
+    console.log(email);
+    if (email == ""){
+        document.getElementById("validEmail").innerHTML = "*Enter Email";
+        document.getElementById("email").style.border="1px solid red";
+    }
+    else{
+        let regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        let result = regex.test(email);
+        if (result === false){
+            document.getElementById("validEmail").innerHTML = "*Invalid Email";
+            document.getElementById("email").style.border="1px solid red";
+        }
+        else
+            return true;
+
+    }
+
+}
+
+function validDOB(){
+    let currDate = new Date();
+    let dob = document.forms["task"]["dob"].value;
+    console.log(dob);
+    if (dob == ""){
+        document.getElementById("validAge").innerHTML = "*Enter Date";
+        document.getElementById("dob").style.border="1px solid red";
+    }
+    let d = new Date(dob);
+    let dNum = d.getTime();
+    if(!dNum && dNum !== 0) return false;
+    let result = d.toISOString().slice(0,10) === dob;
+    let checkCurrDate
+    if(currDate.getTime() > d.getTime()) checkCurrDate = true;
+    if(checkCurrDate===true && result === true) {
+        console.log("work");
+        return true;
+    }
+    else {
+        document.getElementById("validAge").innerHTML = "*Invalid Date";
+        document.getElementById("dob").style.border="1px solid red";
+        return false;
+    }
+
+}
+
+function validSub(){
+    let checkboxesVal = document.getElementsByName('sub');
+    //console.log(checkboxesVal);
+    let checkVals = [];
+    for (let i = 0; i < checkboxesVal.length; i++) {
+        if (checkboxesVal[i].checked) {
+            checkVals.push(checkboxesVal[i].value);
+        }
+    }
+    if(checkVals.length === 0){
+        document.getElementById("validSub").innerHTML = "*Select Subject";
+        return false;
+    }
+    else
+        return true;
+
+}
+
+function validateData(){
+    let vName = validateName();
+    let vPhone = validPhone();
+    let vEmail = validEmail();
+    let vDOB = validDOB();
+    let vSub = validSub();
+    clearCheckValidation(vName,vPhone,vSub,vEmail,vDOB);
+    console.log("vName: "+vName);
+    console.log("vPhone: "+vPhone);
+    console.log("vEmail: "+vEmail);
+    console.log("vDOB: "+vDOB);
+    console.log("vSub: "+vSub);
+    if ((vName === true) && (vPhone === true) && (vEmail === true) && (vDOB === true) && (vSub === true)){
+        console.log("iffff");
+        addToObject();
+        console.log("in if");
+    }
+    else {
+        return false;
+    }
+
+}
+function validateEditData(id){
+    let vName = validateName();
+    let vPhone = validPhone();
+    let vEmail = validEmail();
+    let vDOB = validDOB();
+    let vSub = validSub();
+    clearCheckValidation(vName,vPhone,vSub,vEmail,vDOB);
+    if ((vName === true) && (vPhone === true) && (vEmail === true) && (vDOB === true) && (vSub === true)){
+        updateEditRow(id);
+    }
+    else {
+        return false;
+    }
+
+}
+function clearCheckValidation(vName,vPhone,vSub,vEmail,vDOB){
+    if (vName === true) {
+        document.getElementById("validName").innerText = null;
+        document.getElementById("name").style.border = "none";
+    }
+    if (vPhone === true) {
+        document.getElementById("validPhone").innerText = null;
+        document.getElementById("phone").style.border="none";
+    }
+    if (vSub === true)
+        document.getElementById("validSub").innerText = null;
+    if (vEmail === true) {
+        document.getElementById("validEmail").innerText = null;
+        document.getElementById("email").style.border="none";
+    }
+    if (vDOB === true) {
+        document.getElementById("validAge").innerText = null;
+        document.getElementById("dob").style.border = "none";
+    }
+
+    return true;
+}
+function clearValidation(){
+    document.getElementById("validName").innerText = null;
+    document.getElementById("validPhone").innerText = null;
+    document.getElementById("validEmail").innerText = null;
+    document.getElementById("validSub").innerText = null;
+    document.getElementById("validAge").innerText = null;
+    document.getElementById("name").style.border = "none";
+    document.getElementById("phone").style.border = "none";
+    document.getElementById("dob").style.border = "none";
+    document.getElementById("email").style.border = "none";
+
+    return true;
+}
 function addToObject() {
-   //validateData();
+    clearValidation();
     let nameVal = document.getElementById("name").value,
         phoneVal = document.getElementById("phone").value,
-        emailVal = document.getElementById("email").value;
+        emailVal = document.getElementById("email").value,
         dobVal = document.getElementById("dob").value;
 
     let dobValAge = calAge(dobVal);
@@ -100,6 +295,7 @@ function addToObject() {
 }
 
 function editRow(clicked_id){
+    clearValidation();
     document.getElementById("task").reset();
     console.log("before editing in edit row");
     console.log(allDetails);
@@ -138,10 +334,12 @@ function editRow(clicked_id){
     let button3 = document.getElementsByClassName('btn-update')[0];
     button3.setAttribute("id",Number(clicked_id));
     button3.style.display="block";
-    button3.setAttribute("onclick","updateEditRow(this.id)");
+    //button3.setAttribute("onclick","updateEditRow(this.id)");
+    button3.setAttribute("onclick","validateEditData(this.id)");
     //document.getElementById(clicked_id).style.display="inline block";
 }
 function updateEditRow(clicked_id){
+    clearValidation();
     console.log("in update button and array is");
     console.log(allDetails);
     //console.log(clicked_id);
@@ -209,6 +407,7 @@ function updateEditRow(clicked_id){
 }
 
 function removeRow(clicked_id){
+    clearValidation();
     console.log("before del");
     console.log(allDetails);
     let x = Number(clicked_id);

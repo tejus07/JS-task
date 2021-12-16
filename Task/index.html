@@ -21,27 +21,28 @@
                     <label for="name">
                         <span class="name">Name</span>
                         <input type="text" id="name" name="name">
+                        <span class="valid" id="validName"></span>
                     </label>
                 </div>
                 <div class="phone col-25">
                     <label for="phone">
                         <span class="phone">Phone</span>
                         <input type="text" id="phone" name="phone">
-                        <span id="validPhone"></span>
+                        <span class="valid" id="validPhone"></span>
                     </label>
                 </div>
                 <div class="dob col-25">
                     <label for="dob">
                         <span class="dob">Date of Birth</span>
                         <input type="date" id="dob" name="dob" min="1922-01-01" max="2003-11-30">
-                        <span class="validAge"></span>
+                        <span class="valid" id="validAge"></span>
                     </label>
                 </div>
                 <div class="email col-25">
                     <label for="email">
                         <span class="email">Email</span>
                         <input type="email" name="email" id="email">
-                        <span class="validEmail"></span>
+                        <span class="valid" id="validEmail"></span>
                     </label>
                 </div>
             </div>
@@ -72,6 +73,7 @@
                             </label>
                         </div>
                     </div>
+                    <span class="valid" id="validSub"></span>
                 </div>
                 <div class="gender-radio col-25">
                     <div class="title">
@@ -100,7 +102,7 @@
 
                 </div>
                 <div class="col-25"><!--w3-round w3-btn w3-ripple w3-teal-->
-                    <button type="button" onclick="addToObject()" id="apply-btn" class="button-3"> Apply</button>
+                    <button type="button" onclick="validateData()" id="apply-btn" class="button-3"> Apply</button>
                     <button class="btn-update button-3" style="display: none" type="button" >Update</button>
                 </div>
 

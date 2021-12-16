@@ -29,6 +29,7 @@
 
 .col-25 {
     width: 25%;
+    position: relative;
 }
 
 .container {
@@ -65,6 +66,7 @@ form h3 {
     display: flex;
     width: 100%;
     padding-top: 12px;
+    position: relative;
 }
 .form-inner-1 label{
     display: flex;
@@ -78,8 +80,9 @@ form h3 {
     line-height: 40px;
     margin-top: 10px;
     font-weight: 400;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     border: 0px;
+    outline: 0;
     background-color: #eaecf0;
 }
 .col-50{
@@ -96,6 +99,7 @@ form h3 {
 .gender-radio-inner{
     display: flex;
     width: 100%;
+    margin-top: 10px;
 }
 .gender-radio-inner-1,gender-radio-inner-2{
     display: flex;
@@ -104,11 +108,13 @@ form h3 {
 .subject-checkbox-inner {
     width: 100%;
     display: flex;
+    margin-top: 10px;
 }
 
 .subject-checkbox {
     display: flex;
     flex-flow: column;
+    padding-bottom: 20px;
 }
 
 .sub-gender {
@@ -194,6 +200,8 @@ button#apply-btn {
     width: 90%;
     font-weight: 900;
     align-self: center;
+    height: 42px;
+
 }
 
 button {
@@ -260,4 +268,13 @@ button {
 .container h4 {
     opacity: 0.5;
     text-transform: capitalize;
+}
+
+.valid{
+    font-size: 12.5px;
+    color: red;
+    position: absolute;
+    bottom: 0;
+    text-transform: none;
+    font-weight: 400;
 }
