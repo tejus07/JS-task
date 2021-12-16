@@ -12,10 +12,14 @@ function calAge(dobVal1){
 }
 
 function validateData(){
-
+    let x = document.forms["task"]["name"].value;
+    if (x == "") {
+        alert("Name must be filled out");
+        return false;
+    }
 }
 function addToObject() {
-    validateData();
+   //validateData();
     let nameVal = document.getElementById("name").value,
         phoneVal = document.getElementById("phone").value,
         emailVal = document.getElementById("email").value;

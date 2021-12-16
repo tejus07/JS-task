@@ -49,8 +49,10 @@ form {
     flex-flow: column;
     width: 80%;
     padding: 10px 20px 25px 30px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    /*box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;*/
     font-size: 17px;
+    box-shadow: rgb(9 9 9 / 22%) 0px 0px 5px 0.3px;
+
 }
 
 form h3 {
@@ -133,31 +135,40 @@ table td:nth-child(1) {
     width: 50px;
     max-width: 50px;
     text-align: center;
+    vertical-align: middle;
 }
 table td:nth-child(2) {
     width: 200px;
     max-width: 250px;
+    white-space: normal;
+    vertical-align: middle;
 }
 table td:nth-child(3) {
     width: 150px;
     max-width: 150px;
+    vertical-align: middle;
 }
 
 table td:nth-child(4) {
     width: 100px;
     max-width: 100px;
+    vertical-align: middle;
 }
 table td:nth-child(5) {
     width: 250px;
     max-width: 250px;
+    vertical-align: middle;
 }
 table td:nth-child(6) {
     width: 200px;
     max-width: 300px;
+    vertical-align: middle;
+
 }
 table td:nth-child(7) {
     width: 90px;
     max-width: 90px;
+    vertical-align: middle;
 }
 td {
     display: flex;
@@ -171,8 +182,8 @@ td {
 
 td.btn-cell {
     width: 100px;
+    vertical-align: middle !important;
 }
-
 .btn-cell button {
     width: 100%;
     padding: 8px;
