@@ -1,80 +1,71 @@
-// noinspection DuplicatedCode
-
 let allDetails = [];
 let count = 0;
 let rowcount = 1;
 
-function validateName(){
+function validateName() {
     let nameVal = document.forms["task"]["name"].value;
-    if (nameVal == ""){
+    if (nameVal === "") {
         document.getElementById("validName").innerHTML = "*Enter Name";
         document.getElementById("name").style.border = "1px solid red";
         return false;
-    }
-    else{
+    } else {
         let regExp = /^[a-zA-Z ]{3,30}$/,
             result = regExp.test(nameVal);
 
-        if (result === false){
+        if (result === false) {
             document.getElementById("validName").innerHTML = "*Invalid Name";
             document.getElementById("name").style.border = "1px solid red";
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
 }
 
-function validPhone(){
+function validPhone() {
     let phoneVal = document.forms["task"]["phone"].value;
-    if (phoneVal ==""){
+    if (phoneVal === "") {
         document.getElementById("validPhone").innerHTML = "*Enter Number";
-        document.getElementById("phone").style.border="1px solid red";
-    }
-    else{
+        document.getElementById("phone").style.border = "1px solid red";
+    } else {
         let regExp = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/;
         let result = regExp.test(phoneVal);
-        if (result === false){
+        if (result === false) {
             document.getElementById("validPhone").innerHTML = "*Invalid Number";
-            document.getElementById("name").style.border="1px solid red";
-        }
-        else
+            document.getElementById("name").style.border = "1px solid red";
+        } else
             return true;
     }
 }
 
-function validEmail(){
+function validEmail() {
     let email = document.forms["task"]["email"].value;
-    if (email == ""){
+    if (email === "") {
         document.getElementById("validEmail").innerHTML = "*Enter Email";
-        document.getElementById("email").style.border="1px solid red";
-    }
-    else{
-        let regExp = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        document.getElementById("email").style.border = "1px solid red";
+    } else {
+        let regExp = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
         let result = regExp.test(email);
-        if (result === false){
+        if (result === false) {
             document.getElementById("validEmail").innerHTML = "*Invalid Email";
-            document.getElementById("email").style.border="1px solid red";
-        }
-        else
+            document.getElementById("email").style.border = "1px solid red";
+        } else
             return true;
     }
 
 }
 
-function validDOB(){
+function validDOB() {
     let currDate = new Date();
     let dobVal = document.forms["task"]["dob"].value;
     let age = calAge(dobVal);
     let dobDateObj = new Date(dobVal);
     let timeMS = dobDateObj.getTime();
 
-    if (dobVal == ""){
+    if (dobVal === "") {
         document.getElementById("validAge").innerHTML = "*Enter Date";
-        document.getElementById("dob").style.border="1px solid red";
-    }
-    else {
+        document.getElementById("dob").style.border = "1px solid red";
+    } else {
         if (!timeMS && timeMS !== 0)
             return false;
         let result = dobDateObj.toISOString().slice(0, 10) === dobVal;
@@ -95,7 +86,7 @@ function validDOB(){
     }
 }
 
-function validSub(){
+function validSub() {
     let checkBoxVal = document.getElementsByName('sub');
     let checkVals = [];
 
@@ -104,61 +95,47 @@ function validSub(){
             checkVals.push(element.value);
     });
 
-    if (checkVals.length === 0){
+    if (checkVals.length === 0) {
         document.getElementById("validSub").innerHTML = "*Select Subject";
         return false;
-    }
-    else
+    } else
         return true;
 }
 
-function validateData(){
+function validateData(id) {
     let vName = validateName();
     let vPhone = validPhone();
     let vEmail = validEmail();
     let vDOB = validDOB();
     let vSub = validSub();
-    clearCheckValidation(vName,vPhone,vSub,vEmail,vDOB);
+    clearCheckValidation(vName, vPhone, vSub, vEmail, vDOB);
 
-    if ((vName === true) && (vPhone === true) && (vEmail === true) && (vDOB === true) && (vSub === true)){
-        addToObject();
-    }
-    else {
+    if ((vName === true) && (vPhone === true) && (vEmail === true) && (vDOB === true) && (vSub === true)) {
+        if (id === 'apply-btn') {
+            addToObject();
+        } else {
+            updateEditRow(id);
+        }
+    } else {
         return false;
     }
 
 }
 
-function validateEditData(id){
-    let vName = validateName();
-    let vPhone = validPhone();
-    let vEmail = validEmail();
-    let vDOB = validDOB();
-    let vSub = validSub();
-    clearCheckValidation(vName,vPhone,vSub,vEmail,vDOB);
-    
-    if ((vName === true) && (vPhone === true) && (vEmail === true) && (vDOB === true) && (vSub === true)){
-        updateEditRow(id);
-    }
-    else {
-        return false;
-    }
-}
-
-function clearCheckValidation(vName,vPhone,vSub,vEmail,vDOB){
+function clearCheckValidation(vName, vPhone, vSub, vEmail, vDOB) {
     if (vName === true) {
         document.getElementById("validName").innerText = null;
         document.getElementById("name").style.border = "none";
     }
     if (vPhone === true) {
         document.getElementById("validPhone").innerText = null;
-        document.getElementById("phone").style.border="none";
+        document.getElementById("phone").style.border = "none";
     }
     if (vSub === true)
         document.getElementById("validSub").innerText = null;
     if (vEmail === true) {
         document.getElementById("validEmail").innerText = null;
-        document.getElementById("email").style.border="none";
+        document.getElementById("email").style.border = "none";
     }
     if (vDOB === true) {
         document.getElementById("validAge").innerText = null;
@@ -167,7 +144,7 @@ function clearCheckValidation(vName,vPhone,vSub,vEmail,vDOB){
     return true;
 }
 
-function clearValidation(){
+function clearValidation() {
     document.getElementById("validName").innerText = null;
     document.getElementById("validPhone").innerText = null;
     document.getElementById("validEmail").innerText = null;
@@ -180,24 +157,22 @@ function clearValidation(){
     return true;
 }
 
-function calAge(dobVal1){
+function calAge(dobVal1) {
     let birthDate = new Date(dobVal1);
     let difference = Date.now() - birthDate.getTime();
     let ageDate = new Date(difference);
     return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
 
-function capitalize(String){
-    let capString = String.trim().toLowerCase().replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase());
-    return capString;
+function capitalize(String) {
+    return String.trim().toLowerCase().replace(/(^\w)|(\s\w)/g, match => match.toUpperCase());
 }
 
 //W.I.P
-function checkEmailLength(email){
-    if (email.length <=26){
+function checkEmailLength(email) {
+    if (email.length <= 26) {
         return email;
-    }
-    else {
+    } else {
         let a = email.match(/.{1,26}/g);
         a.join(' ');
         return a;
@@ -217,29 +192,29 @@ function addToObject() {
 
     let checkboxesVal = document.getElementsByName('sub');
     let checkVals = [];
-    checkboxesVal.forEach(element =>{
+    checkboxesVal.forEach(element => {
         if (element.checked)
             checkVals.push(element.value);
     });
 
     let radioboxVal = document.getElementsByName('gender');
     let radioVals = [];
-    radioboxVal.forEach(element =>{
+    radioboxVal.forEach(element => {
         if (element.checked)
             radioVals.push(element.value);
     });
 
     let button1 = document.createElement("button");
-    button1.setAttribute("id",count);
-    button1.setAttribute("onclick","editRow(this.id)");
-    button1.setAttribute("class","btn-edit w3-border");
-    button1.innerHTML="Edit";
+    button1.setAttribute("id", `${count}`);
+    button1.setAttribute("onclick", "editRow(this.id)");
+    button1.setAttribute("class", "btn-edit w3-border");
+    button1.innerHTML = "Edit";
 
     let button2 = document.createElement("button");
-    button2.setAttribute("id",count);
-    button2.setAttribute("onclick","removeRow(this.id)");
-    button2.setAttribute("class","btn-remove w3-border");
-    button2.innerHTML="Remove";
+    button2.setAttribute("id", `${count}`);
+    button2.setAttribute("onclick", "removeRow(this.id)");
+    button2.setAttribute("class", "btn-remove w3-border");
+    button2.innerHTML = "Remove";
 
     let obj = {
         number: count,
@@ -253,10 +228,10 @@ function addToObject() {
     allDetails.push(obj);
 
     let table = document.getElementById("table");
-    table.style.display="table";
+    table.style.display = "table";
     let i = allDetails.length;
     let row = table.insertRow(i);
-    row.setAttribute("id","row_id"+count);
+    row.setAttribute("id", "row_id" + count);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
     let cell3 = row.insertCell(2);
@@ -267,7 +242,7 @@ function addToObject() {
     let cell8 = row.insertCell(7);
     let cell9 = row.insertCell(8);
     let srCount = Number(table.rows.length);
-    cell1.innerHTML = String(srCount-1);
+    cell1.innerHTML = String(srCount - 1);
     cell2.innerHTML = nameVal;
     cell3.innerHTML = phoneVal;
     cell4.innerHTML = dobValAge + " yr";
@@ -275,15 +250,15 @@ function addToObject() {
     cell6.innerHTML = checkVals.toString();
     cell7.innerHTML = radioVals.toString();
     cell8.appendChild(button1);
-    cell8.setAttribute("class","btn-cell");
+    cell8.setAttribute("class", "btn-cell");
     cell9.appendChild(button2);
-    cell9.setAttribute("class","btn-cell");
+    cell9.setAttribute("class", "btn-cell");
     document.getElementById("task").reset();
     count++;
     rowcount++;
 }
 
-function editRow(clicked_id){
+function editRow(clicked_id) {
     clearValidation();
     document.getElementById("task").reset();
 
@@ -296,9 +271,9 @@ function editRow(clicked_id){
     let checkVal = allDetails[objIndex].sub;
     let checked = document.getElementsByName("sub");
     checked.forEach(element => {
-        checkVal.forEach( object=>{
-            if(element.defaultValue === object){
-                element.checked=true;
+        checkVal.forEach(object => {
+            if (element.defaultValue === object) {
+                element.checked = true;
             }
         })
     })
@@ -306,39 +281,32 @@ function editRow(clicked_id){
     let RadioVal = document.getElementsByName("gender");
     let radioChecked = allDetails[objIndex].gender;
     RadioVal.forEach(element => {
-        radioChecked.forEach( object => {
+        radioChecked.forEach(object => {
             if (element.defaultValue === object)
                 element.checked = true;
         })
     })
 
-    document.getElementById("apply-btn").style.display="none";
+    document.getElementById("apply-btn").style.display = "none";
     let button3 = document.getElementsByClassName('btn-update')[0];
-    button3.setAttribute("id",Number(clicked_id));
-    button3.style.display="block";
-    button3.setAttribute("onclick","validateEditData(this.id)");
+    button3.setAttribute("id", `${Number(clicked_id)}`);
+    button3.style.display = "block";
+    button3.setAttribute("onclick", "validateData(this.id)");
 }
-function updateEditRow(clicked_id){
+
+function updateEditRow(clicked_id) {
     clearValidation();
-    console.log("in update button and array is");
-    console.log(allDetails);
-    //console.log(clicked_id);
-    let x = document.getElementsByClassName("btn-update");
-    for (let i = 0; i < x.length; i++) {
-        x[i].style.display="none";
-    }
-    document.getElementById("apply-btn").style.display="inline-block";
+    document.getElementsByClassName("btn-update")[0].style.display = "none";
+    document.getElementById("apply-btn").style.display = "inline-block";
     let nameVal = document.getElementById("name").value,
         phoneVal = document.getElementById("phone").value,
-        emailVal = document.getElementById("email").value;
-    dobVal = document.getElementById("dob").value;
+        emailVal = document.getElementById("email").value,
+        dobVal = document.getElementById("dob").value;
     //To Capitalize
     nameVal = capitalize(nameVal);
 
     let dobValAge = calAge(dobVal);
-
     let checkboxesVal = document.getElementsByName('sub');
-    //console.log(checkboxesVal);
     let checkVals = [];
     for (let i = 0; i < checkboxesVal.length; i++) {
         if (checkboxesVal[i].checked) {
@@ -353,9 +321,6 @@ function updateEditRow(clicked_id){
             radioVals.push(radioboxVal[i].value);
         }
     }
-    // let button1 = allDetails[clicked_id].edit;
-    // let button2 = allDetails[clicked_id].remove;
-
     let obj = {
         number: Number(clicked_id),
         name: nameVal,
@@ -366,60 +331,41 @@ function updateEditRow(clicked_id){
         gender: radioVals,
     }
 
-    console.log("ID: "+clicked_id);
     let objIndex = allDetails.findIndex((obj => obj.number == Number(clicked_id)));
-    console.log("onjIndex"+objIndex);
-    allDetails.splice(objIndex,1,obj);
-    //console.log("after");
-    //console.log(allDetails);
-
+    allDetails.splice(objIndex, 1, obj);
     let table = document.getElementById("table"),
-        rowid = Number(clicked_id);
-        rowno = document.getElementById("row_id"+rowid).id;
-        console.log("row num "+rowno);
-    table.rows[rowno].cells[1].innerHTML = nameVal;
-    table.rows[rowno].cells[2].innerHTML = phoneVal;
-    table.rows[rowno].cells[3].innerHTML = dobValAge+" yr";
-    table.rows[rowno].cells[4].innerHTML = emailVal;
-    table.rows[rowno].cells[5].innerHTML = checkVals;
-    table.rows[rowno].cells[6].innerHTML = radioVals;
+        rowId = Number(clicked_id),
+        rowNo = document.getElementById("row_id" + rowId).id;
+
+    table.rows[rowNo].cells[1].innerHTML = nameVal;
+    table.rows[rowNo].cells[2].innerHTML = phoneVal;
+    table.rows[rowNo].cells[3].innerHTML = dobValAge + " yr";
+    table.rows[rowNo].cells[4].innerHTML = emailVal;
+    table.rows[rowNo].cells[5].innerHTML = checkVals.toString();
+    table.rows[rowNo].cells[6].innerHTML = radioVals.toString();
     document.getElementById("task").reset();
-    // console.log("leaving update button and array is");
-    // console.log(allDetails);
 }
 
-function removeRow(clicked_id){
+function removeRow(clicked_id) {
     clearValidation();
     document.getElementById("task").reset();
-    // console.log("before del");
-    // console.log(allDetails);
-    let x = Number(clicked_id);
-    let y = Number(clicked_id);
-    //console.log("clicked id :"+clicked_id);
-    let objIndex = allDetails.findIndex((obj => obj.number == x));
-    //console.log("object index "+objIndex); filter
-    allDetails.splice(objIndex,1);
-    //console.log(allDetails);
-    document.getElementById("row_id"+y).remove();
+    let buttonID = Number(clicked_id);
+    let objIndex = allDetails.findIndex((obj => obj.number === buttonID));
+    allDetails.splice(objIndex, 1);
+    document.getElementById("row_id" + buttonID).remove();
     updateColNo();
-    let a = document.getElementsByClassName("btn-update");
-    for (let i = 0; i < a.length; i++) {
-        a[i].style.display="none";
-    }
-    document.getElementById("apply-btn").style.display="block";
-    // console.log("after removeing");
-    // console.log(allDetails);
 
+    document.getElementsByClassName("btn-update")[0].style.display = "none";
+    document.getElementById("apply-btn").style.display = "block";
 }
 
-function updateColNo(){
+function updateColNo() {
     let table = document.getElementById("table");
-    //console.log("in update");
     for (let i = 1; i < table.rows.length; i++) {
-        table.rows[i].cells[0].innerHTML = parseInt(i);
+        table.rows[i].cells[0].innerHTML = i.toString();
     }
-    if (table.rows.length < 2){
-        table.style.display="none";
+    if (table.rows.length < 2) {
+        table.style.display = "none";
     }
 }
 
