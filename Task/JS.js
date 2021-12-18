@@ -179,8 +179,7 @@ function checkEmailLength(email) {
     }
 }
 
-function addToObject() {
-    clearValidation();
+function getInputVal(id) {
     let nameVal = document.getElementById("name").value,
         phoneVal = document.getElementById("phone").value,
         emailVal = document.getElementById("email").value,
@@ -188,7 +187,6 @@ function addToObject() {
     //To Capitalize
     nameVal = capitalize(nameVal);
     emailVal = checkEmailLength(emailVal);
-    let dobValAge = calAge(dobVal);
 
     let checkboxesVal = document.getElementsByName('sub');
     let checkVals = [];
@@ -203,6 +201,21 @@ function addToObject() {
         if (element.checked)
             radioVals.push(element.value);
     });
+    return {
+        number: Number(id),
+        name: nameVal,
+        phone: phoneVal,
+        age: dobVal,
+        email: emailVal,
+        sub: checkVals,
+        gender: radioVals,
+    };
+}
+
+function addToObject() {
+    clearValidation();
+    let obj = getInputVal(count);
+    allDetails.push(obj);
 
     let button1 = document.createElement("button");
     button1.setAttribute("id", `${count}`);
@@ -215,17 +228,6 @@ function addToObject() {
     button2.setAttribute("onclick", "removeRow(this.id)");
     button2.setAttribute("class", "btn-remove w3-border");
     button2.innerHTML = "Remove";
-
-    let obj = {
-        number: count,
-        name: nameVal,
-        phone: phoneVal,
-        age: dobVal,
-        email: emailVal,
-        sub: checkVals,
-        gender: radioVals,
-    }
-    allDetails.push(obj);
 
     let table = document.getElementById("table");
     table.style.display = "table";
@@ -243,12 +245,12 @@ function addToObject() {
     let cell9 = row.insertCell(8);
     let srCount = Number(table.rows.length);
     cell1.innerHTML = String(srCount - 1);
-    cell2.innerHTML = nameVal;
-    cell3.innerHTML = phoneVal;
-    cell4.innerHTML = dobValAge + " yr";
-    cell5.innerHTML = emailVal;
-    cell6.innerHTML = checkVals.toString();
-    cell7.innerHTML = radioVals.toString();
+    cell2.innerHTML = obj.name;
+    cell3.innerHTML = obj.phone;
+    cell4.innerHTML = calAge(obj.age) + " yr";
+    cell5.innerHTML = obj.email;
+    cell6.innerHTML = obj.sub.toString();
+    cell7.innerHTML = obj.gender.toString();
     cell8.appendChild(button1);
     cell8.setAttribute("class", "btn-cell");
     cell9.appendChild(button2);
@@ -298,51 +300,19 @@ function updateEditRow(clicked_id) {
     clearValidation();
     document.getElementsByClassName("btn-update")[0].style.display = "none";
     document.getElementById("apply-btn").style.display = "inline-block";
-    let nameVal = document.getElementById("name").value,
-        phoneVal = document.getElementById("phone").value,
-        emailVal = document.getElementById("email").value,
-        dobVal = document.getElementById("dob").value;
-    //To Capitalize
-    nameVal = capitalize(nameVal);
-
-    let dobValAge = calAge(dobVal);
-    let checkboxesVal = document.getElementsByName('sub');
-    let checkVals = [];
-    for (let i = 0; i < checkboxesVal.length; i++) {
-        if (checkboxesVal[i].checked) {
-            checkVals.push(checkboxesVal[i].value);
-        }
-    }
-
-    let radioboxVal = document.getElementsByName('gender');
-    let radioVals = [];
-    for (let i = 0; i < radioboxVal.length; i++) {
-        if (radioboxVal[i].checked) {
-            radioVals.push(radioboxVal[i].value);
-        }
-    }
-    let obj = {
-        number: Number(clicked_id),
-        name: nameVal,
-        phone: phoneVal,
-        age: dobVal,
-        email: emailVal,
-        sub: checkVals,
-        gender: radioVals,
-    }
-
-    let objIndex = allDetails.findIndex((obj => obj.number == Number(clicked_id)));
-    allDetails.splice(objIndex, 1, obj);
+    let editObj = getInputVal(clicked_id);
+    let objIndex = allDetails.findIndex((obj => obj.number === Number(clicked_id)));
+    allDetails.splice(objIndex, 1, editObj);
     let table = document.getElementById("table"),
         rowId = Number(clicked_id),
         rowNo = document.getElementById("row_id" + rowId).id;
 
-    table.rows[rowNo].cells[1].innerHTML = nameVal;
-    table.rows[rowNo].cells[2].innerHTML = phoneVal;
-    table.rows[rowNo].cells[3].innerHTML = dobValAge + " yr";
-    table.rows[rowNo].cells[4].innerHTML = emailVal;
-    table.rows[rowNo].cells[5].innerHTML = checkVals.toString();
-    table.rows[rowNo].cells[6].innerHTML = radioVals.toString();
+    table.rows[rowNo].cells[1].innerHTML = editObj.name;
+    table.rows[rowNo].cells[2].innerHTML = editObj.phone;
+    table.rows[rowNo].cells[3].innerHTML = calAge(editObj.age) + " yr";
+    table.rows[rowNo].cells[4].innerHTML = editObj.email;
+    table.rows[rowNo].cells[5].innerHTML = editObj.sub.toString();
+    table.rows[rowNo].cells[6].innerHTML = editObj.gender.toString();
     document.getElementById("task").reset();
 }
 
@@ -368,8 +338,3 @@ function updateColNo() {
         table.style.display = "none";
     }
 }
-
-let form = document.forms['task'];
-form.elements.email.placeholder = 'Email';
-form.elements.name.placeholder = 'Name';
-form.elements.phone.placeholder = 'Phone Number';
