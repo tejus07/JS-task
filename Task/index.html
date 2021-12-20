@@ -133,18 +133,19 @@
                     <div class="title">Gender</div>
                     <div class="options-container">
                         <div class="options-inner">
-                            <label onchange="getFilterValues()" for = "gender-male">
+                            <label  for = "gender-male">
                                 <input id="gender-male" name="genderF" type="checkbox" value="Male">
                                 <span>Male</span>
                             </label>
-                            <label onchange="getFilterValues()" for = "gender-female">
+                            <label for = "gender-female">
                                 <input id="gender-female" name="genderF" type="checkbox" value="Female">
                                 <span>Female</span>
                             </label>
-                            <label onchange="getFilterValues()" for = "gender-others">
+                            <label  for = "gender-others">
                                 <input id="gender-others" name="genderF" type="checkbox" value="Others">
                                 <span>Others</span>
                             </label>
+
                         </div>
                     </div>
                 </div>
@@ -152,24 +153,25 @@
                     <div class="title">Subject</div>
                     <div class="options-container">
                         <div class="options-inner">
-                            <label onchange="getFilterValues()" for = "sub-maths">
+                            <label  for = "sub-maths">
                                 <input id="sub-maths" name="subF" type="checkbox" value="Maths">
                                 <span>Maths</span>
                             </label>
-                            <label onchange="getFilterValues()" for = "sub-physics">
+                            <label  for = "sub-physics">
                                 <input id="sub-physics" name="subF" type="checkbox" value="Physics">
                                 <span>Physics</span>
                             </label>
-                            <label onchange="getFilterValues()" for = "sub-chemistry">
+                            <label  for = "sub-chemistry">
                                 <input id="sub-chemistry" name="subF" type="checkbox" value="Chemistry">
                                 <span>Chemistry</span>
                             </label>
-                            <label onchange="getFilterValues()" for = "sub-biology">
+                            <label  for = "sub-biology">
                                 <input id="sub-biology" name="subF" type="checkbox" value="Biology">
                                 <span>Biology</span>
                             </label>
 
                         </div>
+                        <button type="button" onclick="getFilterValues()"></button>
                     </div>
                 </div>
             </div>
@@ -186,10 +188,8 @@
                 <th colspan="2">Operations</th>
             </tr>
         </table>
-
     </div>
-
-</div>
+    </div>
 </div>
 
 </body>
