@@ -338,3 +338,65 @@ function updateColNo() {
         table.style.display = "none";
     }
 }
+
+function getFilterValues(){
+    let genderValue = document.getElementsByName("genderF");
+    let genderCheckedValues = [];
+    genderValue.forEach(element => {
+        if (element.checked)
+            genderCheckedValues.push(element.value);
+    });
+
+    let subjectValue = document.getElementsByName("subF");
+    let subjectCheckedValues = [];
+    subjectValue.forEach(element => {
+        if (element.checked)
+            subjectCheckedValues.push(element.value);
+    });
+
+    let genderMatches = [];
+    let subMatches =[];
+    allDetails.forEach(obj => {
+        genderCheckedValues.forEach(element =>{
+            if (obj.gender[0] === element){
+                genderMatches.push(obj);
+            }
+        })
+    });
+
+    for (let i = 0; i < allDetails.length; i++) {
+        let result = !subjectCheckedValues.some(val => !allDetails[i].sub.includes(val));
+        if (result === true){
+            subMatches.push(allDetails[i]);
+        }
+    }
+    if (genderMatches.length === 0){
+        let table = document.getElementById("table");
+        for (i =allDetails.length; i < table.rows.length; i++) {
+            // Hide the row initially.
+            table.rows[i].style.display = "";
+        }
+    }
+
+    if (genderMatches.length !== 0){
+        let table = document.getElementById("table");
+        for (i = genderMatches.length + 1; i < table.rows.length; i++) {
+            // Hide the row initially.
+            table.rows[i].style.display = "none";
+        }
+        for (let i = 1; i <= genderMatches.length+1; i++) {
+            table.rows[i].cells[1].innerHTML=genderMatches[i-1].name;
+            console.log(genderMatches[i-1].name);
+            table.rows[i].cells[2].innerHTML=genderMatches[i-1].phone;
+            table.rows[i].cells[3].innerHTML=calAge(genderMatches[i-1].age).toString();
+            table.rows[i].cells[4].innerHTML=genderMatches[i-1].email;
+            table.rows[i].cells[5].innerHTML=genderMatches[i-1].sub;
+            table.rows[i].cells[6].innerHTML=genderMatches[i-1].gender;
+            // table.rows[i].cells[7].innerHTML=genderMatches[i-1].gender;
+            // document.getElementById("Number(genderMatches[i-1].number)");
+
+        }
+    }
+
+}
+

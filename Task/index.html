@@ -110,13 +110,69 @@
             </div>
         </form>
         <div class="filter">
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
+<!--            <div class="gender-filter">-->
+<!--                <select class="gender-select" id="gender-select" onchange="getDropDownValue()">-->
+<!--                    <option selected>Select Gender</option>-->
+<!--                    <option value="Male">Male</option>-->
+<!--                    <option value="Female">Female</option>-->
+<!--                    <option value="Others">Other</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div class="subject-filter">-->
+<!--                <select class="sub-select" id="sub-select" onchange="getDropDownValue()">-->
+<!--                    <option selected>Select Subject</option>-->
+<!--                    <option value="Maths">Maths</option>-->
+<!--                    <option value="Physics">Physics</option>-->
+<!--                    <option value="Chemistry">Chemistry</option>-->
+<!--                    <option value="Biology">Biology</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+            <div class="filter-inner">
+                <div class="filter-inner-1">
+                    <div class="title">Gender</div>
+                    <div class="options-container">
+                        <div class="options-inner">
+                            <label onchange="getFilterValues()" for = "gender-male">
+                                <input id="gender-male" name="genderF" type="checkbox" value="Male">
+                                <span>Male</span>
+                            </label>
+                            <label onchange="getFilterValues()" for = "gender-female">
+                                <input id="gender-female" name="genderF" type="checkbox" value="Female">
+                                <span>Female</span>
+                            </label>
+                            <label onchange="getFilterValues()" for = "gender-others">
+                                <input id="gender-others" name="genderF" type="checkbox" value="Others">
+                                <span>Others</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-inner-2">
+                    <div class="title">Subject</div>
+                    <div class="options-container">
+                        <div class="options-inner">
+                            <label onchange="getFilterValues()" for = "sub-maths">
+                                <input id="sub-maths" name="subF" type="checkbox" value="Maths">
+                                <span>Maths</span>
+                            </label>
+                            <label onchange="getFilterValues()" for = "sub-physics">
+                                <input id="sub-physics" name="subF" type="checkbox" value="Physics">
+                                <span>Physics</span>
+                            </label>
+                            <label onchange="getFilterValues()" for = "sub-chemistry">
+                                <input id="sub-chemistry" name="subF" type="checkbox" value="Chemistry">
+                                <span>Chemistry</span>
+                            </label>
+                            <label onchange="getFilterValues()" for = "sub-biology">
+                                <input id="sub-biology" name="subF" type="checkbox" value="Biology">
+                                <span>Biology</span>
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         <table class="w3-table-all w3-hoverable" id="table"
                style="width: 80%; display: none; border: 0 solid #ccc; box-shadow: rgb(9 9 9 / 22%) 0 0 5px 0.3px;">
             <tr id="table_header">
@@ -130,8 +186,10 @@
                 <th colspan="2">Operations</th>
             </tr>
         </table>
+
     </div>
 
+</div>
 </div>
 
 </body>
