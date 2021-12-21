@@ -38,21 +38,37 @@ function validPhone() {
     }
 }
 
-function validEmail() {
-    let email = document.forms["task"]["email"].value;
-    if (email === "") {
-        document.getElementById("validEmail").innerHTML = "*Enter Email";
+function validEmail(id) {
+
+    let email = document.forms["task"]["email"].value,
+        dupCheck;
+
+    allDetails.forEach(obj => {
+        if (obj.email === email) {
+            if (id === 'apply-btn') {
+                dupCheck = false;
+            }
+
+
+        }
+    })
+    if (dupCheck === false) {
+        document.getElementById("validEmail").innerHTML = "*Duplicates not allowed";
         document.getElementById("email").style.border = "1px solid red";
     } else {
-        let regExp = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-        let result = regExp.test(email);
-        if (result === false) {
-            document.getElementById("validEmail").innerHTML = "*Invalid Email";
+        if (email === "") {
+            document.getElementById("validEmail").innerHTML = "*Enter Email";
             document.getElementById("email").style.border = "1px solid red";
-        } else
-            return true;
+        } else {
+            let regExp = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+            let result = regExp.test(email);
+            if (result === false) {
+                document.getElementById("validEmail").innerHTML = "*Invalid Email";
+                document.getElementById("email").style.border = "1px solid red";
+            } else
+                return true;
+        }
     }
-
 }
 
 function validDOB() {
@@ -105,7 +121,7 @@ function validSub() {
 function validateData(id) {
     let vName = validateName();
     let vPhone = validPhone();
-    let vEmail = validEmail();
+    let vEmail = validEmail(id);
     let vDOB = validDOB();
     let vSub = validSub();
     clearCheckValidation(vName, vPhone, vSub, vEmail, vDOB);
@@ -339,7 +355,23 @@ function updateColNo() {
     }
 }
 
-function getFilterValues(){
+function filterUpdateColNo() {
+    let table = document.getElementById("table");
+    let count = 1;
+    for (let i = 1; i < table.rows.length; i++) {
+        console.log(table.rows[i].style.display);
+        if(table.rows[i].style.display !== "none"){
+            table.rows[i].cells[0].innerHTML = count.toString();
+            console.log("in count");
+            count++;
+        }
+    }
+    if (table.rows.length < 2) {
+        table.style.display = "none";
+    }
+}
+
+function getFilterValues() {
     let genderValue = document.getElementsByName("genderF");
     let genderCheckedValues = [];
     genderValue.forEach(element => {
@@ -347,145 +379,88 @@ function getFilterValues(){
             genderCheckedValues.push(element.value);
     });
 
-    // if (genderCheckedValues.length === 0){
-    //     for (let j = 1; j < document.getElementById("table").rows.length; j++) {
-    //         document.getElementById("table").rows[j].style.display = "table-row";
-    //     }
-    // }
+
     let subjectValue = document.getElementsByName("subF");
     let subjectCheckedValues = [];
     subjectValue.forEach(element => {
         if (element.checked)
             subjectCheckedValues.push(element.value);
     });
-    //
-     let genderMatches = [];
+
+    let genderMatches = [];
+
     allDetails.forEach(obj => {
-        genderCheckedValues.forEach(element =>{
-            if (obj.gender[0] === element){
+        genderCheckedValues.forEach(element => {
+            if (obj.gender[0] === element) {
                 genderMatches.push(obj);
             }
         })
     });
-
-    for (let i = 0; i < genderMatches.length; i++) {
-        
-    }
-    
-    let subMatches =[];
-    for (let i = 0; i < allDetails.length; i++) {
-        let result = !subjectCheckedValues.some(val => !allDetails[i].sub.includes(val));
-        if (result === true){
-            subMatches.push(allDetails[i]);
+    if (genderMatches.length === 0) {
+        let subMatches = [];
+        for (let i = 0; i < allDetails.length; i++) {
+            let result = !subjectCheckedValues.some(val => !allDetails[i].sub.includes(val));
+            if (result === true) {
+                subMatches.push(allDetails[i]);
+            }
         }
+
+        arrayToTableDisplay(subMatches);
+    } else {
+        let subMatches = [];
+        for (let i = 0; i < genderMatches.length; i++) {
+            let result = !subjectCheckedValues.some(val => !genderMatches[i].sub.includes(val));
+            if (result) {
+                subMatches.push(genderMatches[i]);
+            }
+        }
+
+        if (!subjectValue) {
+            clearFilterValues();
+        } else {
+
+            arrayToTableDisplay(subMatches);
+        }
+
+    }
+
+}
+
+function arrayToTableDisplay(subMatches) {
+
+    let table = document.getElementById("table");
+    for (let i = 1; i < table.rows.length; i++) {
+        table.rows[i].style.display = "none";
     }
 
 
-
-    // if (genderMatches.length === 0){
-    //     let table = document.getElementById("table");
-    //     for (i =allDetails.length; i < table.rows.length; i++) {
-    //         // Hide the row initially.
-    //         table.rows[i].style.display = "";
-    //     }
-    // }
-
-    // if (genderMatches.length !== 0){
-    //     let table = document.getElementById("table");
-    //     for (i = genderMatches.length + 1; i < table.rows.length; i++) {
-    //         // Hide the row initially.
-    //         table.rows[i].style.display = "none";
-    //     }
-    //     for (let i = 1; i <= genderMatches.length+1; i++) {
-    //         table.rows[i].cells[1].innerHTML=genderMatches[i-1].name;
-    //         console.log(genderMatches[i-1].name);
-    //         table.rows[i].cells[2].innerHTML=genderMatches[i-1].phone;
-    //         table.rows[i].cells[3].innerHTML=calAge(genderMatches[i-1].age).toString();
-    //         table.rows[i].cells[4].innerHTML=genderMatches[i-1].email;
-    //         table.rows[i].cells[5].innerHTML=genderMatches[i-1].sub;
-    //         table.rows[i].cells[6].innerHTML=genderMatches[i-1].gender;
-    //         // table.rows[i].cells[7].innerHTML=genderMatches[i-1].gender;
-    //         // document.getElementById("Number(genderMatches[i-1].number)");
-    //
-    //     }
-    // let input, filter, table, tr, td, i, txtValue;
-    // input = genderMatches[0].toString();
-    // console.log("input"+input);
-    //     filter = input.value.toUpperCase();
-    //     console.log(filter);
-    //     table = document.getElementById("table");
-    //     tr = table.getElementsByTagName("tr");
-    //     for (i = 0; i < tr.length; i++) {
-    //         td = tr[i].getElementsByTagName("td")[6];
-    //         if (td) {
-    //             txtValue = td.textContent || td.innerText;
-    //             if (txtValue.toUpperCase().indexOf(filter) > -1) {
-    //                 tr[i].style.display = "";
-    //             } else {
-    //                 tr[i].style.display = "none";
-    //             }
-    //         }
-    //     }
-    // let table = document.getElementById("table-filter");
-    // //table.style.display = "table";
-    // for (let i = 0; i < genderMatches.length; i++) {
-    //     let row = table.insertRow(i+1);
-    //     row.setAttribute("id", "row_id" + i);
-    //     let cell1 = row.insertCell(0);
-    //     let cell2 = row.insertCell(1);
-    //     let cell3 = row.insertCell(2);
-    //     let cell4 = row.insertCell(3);
-    //     let cell5 = row.insertCell(4);
-    //     let cell6 = row.insertCell(5);
-    //     let cell7 = row.insertCell(6);
-    //     let cell8 = row.insertCell(7);
-    //     let cell9 = row.insertCell(8);
-    //     let srCount = Number(table.rows.length);
-    //     cell1.innerHTML = String(srCount - 1);
-    //     cell2.innerHTML = genderMatches[i].name;
-    //     cell3.innerHTML = genderMatches[i].phone;
-    //     cell4.innerHTML = calAge(genderMatches[i].age) + " yr";
-    //     cell5.innerHTML = genderMatches[i].email;
-    //     cell6.innerHTML = genderMatches[i].sub.toString();
-    //     cell7.innerHTML = genderMatches[i].gender.toString();
-    //     let button1 = document.createElement("button");
-    //     button1.setAttribute("id", `${i}`);
-    //     button1.setAttribute("onclick", "editRow(this.id)");
-    //     button1.setAttribute("class", "btn-edit w3-border");
-    //     button1.innerHTML = "Edit";
-    //
-    //     let button2 = document.createElement("button");
-    //     button2.setAttribute("id", `${i}`);
-    //     button2.setAttribute("onclick", "removeRow(this.id)");
-    //     button2.setAttribute("class", "btn-remove w3-border");
-    //     button2.innerHTML = "Remove";
-    //     cell8.appendChild(button1);
-    //     cell8.setAttribute("class", "btn-cell");
-    //     cell9.appendChild(button2);
-    //     cell9.setAttribute("class", "btn-cell");
-    // }
-
-
-    let input, filter, table, tr, td, i, txtValue;
-    input = 'Male';
-    console.log(input);
-    filter = input;
-    console.log(filter);
-    table = document.getElementById("table");
-    tr = table.getElementsByTagName("tr");
-    for (i = 1; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[6];
-
-        if (td) {
-            txtValue = td.textContent || td.innerText;
-
-            if ((txtValue.toUpperCase().indexOf(filter) > -1) && (txtValue.toUpperCase().indexOf(filter) < 2) ) {
-                console.log(txtValue.indexOf(filter));
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
+    for (let j = 0; j < subMatches.length; j++) {
+        let input, filter, table, tr, td, i, txtValue;
+        input = subMatches[j].email;
+        filter = input.toUpperCase();
+        table = document.getElementById("table");
+        tr = table.getElementsByTagName("tr");
+        console.log(tr.length);
+        for (i = 1; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[4];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase() === filter) {
+                    tr[i].style.display = "";
+                }
             }
         }
     }
+    filterUpdateColNo();
+}
+
+function clearFilterValues() {
+    let table = document.getElementById("table");
+    for (let i = 1; i < table.rows.length; i++) {
+        table.rows[i].style.display = "table-row";
+    }
+    document.getElementById("filter").reset();
+    updateColNo();
+
 }
 
